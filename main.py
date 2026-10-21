@@ -1,0 +1,44 @@
+from fastapi import FastAPI
+app=FastAPI(title="Madhu")
+
+
+students = [
+    {"id" : 1,"name":"a","dept":"python"},
+    {"id" : 2,"name":"b","dept":"c"},
+    {"id" : 3, "name":"c","dept":"java"},
+    {"id" : 4, "name":"d","dept":"python"},
+    {"id" : 5, "name":"e","dept":"c"}
+]
+
+
+#Path Parameters
+
+@app.get("/students/{student_id}")
+def get_student_id(student_id : int):
+    print(student_id)
+    print(type(student_id))
+    for student in students:
+        if student["id"] == student_id:
+            return student
+    return {"message" : "id is invalid"}
+
+
+#if i give the dept name,i want all the students in that dept
+@app.get("/students")
+def get_students(dept:str):
+    result=[]
+    for student in students:
+        if student["dept"]==dept:
+            result.append(student)
+    return result
+
+
+
+
+@app.get("/")
+def home():
+    return {"Message":"Hi FastApi"}
+
+@app.get("/name")
+def name():
+    return {"Batch:576"}
